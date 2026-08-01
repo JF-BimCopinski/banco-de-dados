@@ -103,3 +103,4 @@ select * from DESPESAS where categoria = 'alimentação';
 select * from DESPESAS where metodoPagamento = 'PIX';
 select * from DESPESAS where valor > 50;
 select * from DESPESAS where data_despesa = '2026-08-01';
+select valor, data_despesa from DESPESAS;

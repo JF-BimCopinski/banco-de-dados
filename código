@@ -1,0 +1,105 @@
+-- Criação da tabela recebimentos
+create table RECEBIMENTOS (
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(100) NOT NULL,
+valor DECIMAL(6,2) NOT NULL,
+data_recebimento DATE NOT NULL
+);
+
+-- Criação da tabela despesas
+create table DESPESAS (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(100) NOT NULL,
+	categoria VARCHAR(100) NOT NULL,
+	metodoPagamento VARCHAR(100) NOT NULL,
+	valor DECIMAL(11,2) NOT NULL,
+	data_despesa DATE NOT NULL
+);
+
+-- Inserindo na tabela recebimentos meu salário
+insert into RECEBIMENTOS (nome, valor, data_recebimento) values (
+'salário',
+925.00,
+'2026-08-05'
+);
+
+-- Inserindo na tabela despesas uma despesa de milkshake
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'milkshake',
+'alimentação',
+'PIX',
+25.00,
+'2026-07-31'
+);
+
+-- Inserindo na tabela despesas uma despesa de coxinha
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'coxinha',
+'alimentação',
+'PIX',
+6.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com pastel
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'pastel',
+'alimentação',
+'PIX',
+7.00,
+'2026-07-31'
+);
+
+-- Inserindo na tabela despesas uma despesa com Energético Monster
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'Monster',
+'alimentação',
+'PIX',
+12.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com barra de chocolate
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'Barra de chocolate',
+'alimentação',
+'PIX',
+10.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com Ônibus
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'Ônibus',
+'transporte',
+'vale transporte',
+6.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com Ônibus
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'Ônibus',
+'transporte',
+'vale transporte',
+6.00,
+'2026-07-31'
+);
+
+-- Inserindo na tabela despesas uma despesa com Ônibus
+insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+'Ônibus',
+'transporte',
+'vale transporte',
+6.00,
+'2026-08-01'
+);
+
+select * from DESPESAS where categoria = 'alimentação';
+select * from DESPESAS where metodoPagamento = 'PIX';
+select * from DESPESAS where valor > 50;
+select * from DESPESAS where data_despesa = '2026-08-01';

@@ -10,6 +10,7 @@ data_recebimento DATE NOT NULL
 create table DESPESAS (
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(100) NOT NULL,
+  descricao VARCHAR(100) NOT NULL,
 	categoria VARCHAR(100) NOT NULL,
 	metodoPagamento VARCHAR(100) NOT NULL,
 	valor DECIMAL(11,2) NOT NULL,
@@ -24,18 +25,20 @@ insert into RECEBIMENTOS (nome, valor, data_recebimento) values (
 );
 
 -- Inserindo na tabela despesas uma despesa de milkshake
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
-'milkshake',
-'alimentação',
-'PIX',
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Milkshake',
+'Milkshake de café do BOBS',
+'Alimentação',
+'Vale refeição',
 25.00,
 '2026-07-31'
 );
 
 -- Inserindo na tabela despesas uma despesa de coxinha
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
-'coxinha',
-'alimentação',
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Coxinha',
+'Coxinha da Ana',
+'Alimentação',
 'PIX',
 6.00,
 '2026-07-31'
@@ -43,64 +46,102 @@ insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) val
 
 
 -- Inserindo na tabela despesas uma despesa com pastel
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
-'pastel',
-'alimentação',
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Pastel',
+'Pastel da Ana',
+'Alimentação',
 'PIX',
 7.00,
 '2026-07-31'
 );
 
 -- Inserindo na tabela despesas uma despesa com Energético Monster
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
 'Monster',
-'alimentação',
-'PIX',
+'Energético do mercado',
+'Alimentação',
+'Vale refeição',
 12.00,
 '2026-07-31'
 );
 
 
 -- Inserindo na tabela despesas uma despesa com barra de chocolate
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
 'Barra de chocolate',
-'alimentação',
-'PIX',
+'Chocolate do mercado',
+'Alimentação',
+'Vale refeição',
 10.00,
 '2026-07-31'
 );
 
 
 -- Inserindo na tabela despesas uma despesa com Ônibus
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
 'Ônibus',
-'transporte',
-'vale transporte',
+'Transporte público para a faculdade',
+'Transporte',
+'Vale transporte',
 6.00,
 '2026-07-31'
 );
 
 
 -- Inserindo na tabela despesas uma despesa com Ônibus
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
 'Ônibus',
-'transporte',
-'vale transporte',
+'Transporte público para a casa',
+'Transporte',
+'Vale transporte',
 6.00,
 '2026-07-31'
 );
 
 -- Inserindo na tabela despesas uma despesa com Ônibus
-insert into DESPESAS (nome, categoria, metodoPagamento, valor, data_despesa) values (
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
 'Ônibus',
-'transporte',
-'vale transporte',
+'Transporte público para a faculdade',
+'Transporte',
+'Vale transporte',
 6.00,
 '2026-08-01'
 );
 
+select * from DESPESAS;
 select * from DESPESAS where categoria = 'alimentação';
 select * from DESPESAS where metodoPagamento = 'PIX';
 select * from DESPESAS where valor > 50;
 select * from DESPESAS where data_despesa = '2026-08-01';
 select valor, data_despesa from DESPESAS;
+select categoria, descricao from DESPESAS;
+select descricao, metodoPagamento from DESPESAS;
+select descricao, data_despesa from DESPESAS where categoria = 'Transporte';
+select * from DESPESAS where categoria != 'Alimentação';
+select * from DESPESAS where metodoPagamento = 'Vale refeição' OR metodoPagamento = 'Vale transporte' OR metodoPagamento = 'Cartão';
+select SUM(valor) from DESPESAS;
+select AVG(valor) from DESPESAS;
+select COUNT(*) from DESPESAS where categoria = 'Alimentação';
+select SUM(valor) from DESPESAS where categoria = 'Transporte';
+select sum(valor) from DESPESAS where categoria = 'Lazer';
+select categoria, descricao, valor from DESPESAS where metodoPagamento = 'PIX' order by data_despesa;
+select * from DESPESAS where categoria = 'Alimentação' or categoria = 'Transporte' order by categoria, valor;
+
+-- 1. Escreva uma consulta SQL que exiba todos os registros da principal tabela do seu banco: OK.
+-- 2. Liste apenas os gastos da categoria alimentação: OK.
+-- 3. Mostre todos os gastos pagos com PIX: OK.
+-- 4. Exiba todos os gastos cujo valor seja superior a R$50,00: OK.
+-- 5. Mostre todos os gastos realizados no dia 01/08/2025: OK.
+-- 6. Exiba apenas as colunas data e valor: OK.
+-- 7. Mostre categoria e descrição: OK.
+-- 8. Exiba apenas descrição e forma de pagamento: OK.
+-- 9. Exiba apenas a data e a descrição dos gastos da categoria transporte: OK.
+-- 10. Liste todos os gastos que não pertencem à categoria alimentação: OK.
+-- 11. Mostre os gastos pagos com cartão: OK.
+-- 12. Calcule o valor total gasto: OK.
+-- 13. Calcule a média dos gastos registrados: OK.
+-- 14. Conte quantos gastos pertencem à categoria alimentação: OK.
+-- 15. Calcule o total gasto apenas com transporte: OK.
+-- 16. Calcule o total gasto apenas com lazer: OK.
+-- 17. Liste Categoria, Descrição e Valor dos gastos pagos com PIX, ordenados pela data: OK.
+-- 18. Exiba os gastos das categorias Alimentação ou Transporte, ordenados pela categoria e, em seguida, pelo valor: OK.

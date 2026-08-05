@@ -1,20 +1,8 @@
--- Criação da tabela despesas
-create table DESPESAS (
-idDespesas INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(100) NOT NULL,
-descricao VARCHAR(100) NOT NULL,
-
--- (FK) categoria VARCHAR(100) NOT NULL,
--- (FK) metodoPagamento VARCHAR(100) NOT NULL,
-valor DECIMAL(11,2) NOT NULL,
-data_despesa DATE NOT NULL
-);
-
 -- Criação da tabela da conta bancaria
 create table CONTABANCARIA (
-  idContaBancaria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  contaBancaria VARCHAR (100) NOT NULL
-  );
+idContaBancaria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+contaBancaria VARCHAR (100) NOT NULL
+);
   
 -- Criação da tabela de categoria em despesas
 create table CATEGORIA (
@@ -23,11 +11,11 @@ categoria VARCHAR (100) NOT NULL
 );
 
 -- Criação da tabela de método de pagamento
-create table metodoPagamento (
-  idMetodoPagamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+create table METODOPAGAMENTO (
+idMetodoPagamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 metodoPagamento VARCHAR (100) NOT NULL
 );
-
+  
 -- Criação da tabela receitas
 create table RECEITAS (
 idReceita INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -35,8 +23,27 @@ nome VARCHAR(100) NOT NULL,
 valor DECIMAL(6,2) NOT NULL,
 idContaBancaria INT NOT NULL,
 data_recebimento DATE NOT NULL,
+
 FOREIGN KEY(idContaBancaria) REFERENCES CONTABANCARIA(idContaBancaria)
 );
 
-select * from RECEITAS;
+-- Criação da tabela despesas
+create table DESPESAS (
+idDespesas INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(100) NOT NULL,
+descricao VARCHAR(100) NOT NULL,
+idCategoria INT NOT NULL,
+idMetodoPagamento INT NOT NULL,
+valor DECIMAL(11,2) NOT NULL,
+data_despesa DATE NOT NULL,
+
+FOREIGN KEY (idCategoria) REFERENCES CATEGORIA(idCategoria),
+FOREIGN KEY (idMetodoPagamento) REFERENCES METODOPAGAMENTO (idMetodoPagamento)
+);
+
+insert into CONTABANCARIA (contaBancaria) values ('conta salário'), ('conta corrente'), ('conta poupança');
+insert into CATEGORIA (categoria) values ('alimentação'), ('transporte'), ('lazer'), ('roupas');
+insert into METODOPAGAMENTO;
+
+select * from CONTABANCARIA;
 -- 1. Liste todas as despesas juntamente com o nome da categoria. Exiba: descrição; valor; categoria: 

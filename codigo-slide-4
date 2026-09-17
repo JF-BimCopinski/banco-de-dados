@@ -15,35 +15,121 @@ create table METODOPAGAMENTO (
 idMetodoPagamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 metodoPagamento VARCHAR (100) NOT NULL
 );
-  
--- Criação da tabela receitas
-create table RECEITAS (
-idReceita INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+
+insert into CONTABANCARIA (contaBancaria) values ('conta salário'), ('conta corrente'), ('conta poupança');
+insert into CATEGORIA (categoria) values ('alimentação'), ('transporte'), ('lazer'), ('roupas');
+insert into METODOPAGAMENTO (metodoPagamento) values ('PIX'), ('Débito'), ('Crédito'), ('Dinheiro'), ('Vale refeição'), ('Vale alimentação');
+
+-- Criação da tabela recebimentos
+create table RECEBIMENTOS (
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(100) NOT NULL,
 valor DECIMAL(6,2) NOT NULL,
-idContaBancaria INT NOT NULL,
 data_recebimento DATE NOT NULL,
-
-FOREIGN KEY(idContaBancaria) REFERENCES CONTABANCARIA(idContaBancaria)
+idcontaBancaria INT NOT NULL,
+FOREIGN KEY (idcontaBancaria) REFERENCES contaBancaria(idcontaBancaria)
 );
 
 -- Criação da tabela despesas
 create table DESPESAS (
-idDespesas INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(100) NOT NULL,
-descricao VARCHAR(100) NOT NULL,
-idCategoria INT NOT NULL,
-idMetodoPagamento INT NOT NULL,
-valor DECIMAL(11,2) NOT NULL,
-data_despesa DATE NOT NULL,
-
-FOREIGN KEY (idCategoria) REFERENCES CATEGORIA(idCategoria),
-FOREIGN KEY (idMetodoPagamento) REFERENCES METODOPAGAMENTO (idMetodoPagamento)
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(100) NOT NULL,
+  descricao VARCHAR(100) NOT NULL,
+	categoria VARCHAR(100) NOT NULL,
+	valor DECIMAL(11,2) NOT NULL,
+	data_despesa DATE NOT NULL,
+  idMetodoPagamento INT NOT NULL,
+  FOREIGN KEY (idMetodoPagamento) REFERENCES metodoPagamento(idMetodoPagamento)
 );
 
-insert into CONTABANCARIA (contaBancaria) values ('conta salário'), ('conta corrente'), ('conta poupança');
-insert into CATEGORIA (categoria) values ('alimentação'), ('transporte'), ('lazer'), ('roupas');
-insert into METODOPAGAMENTO;
+-- Inserindo na tabela recebimentos meu salário
+insert into RECEBIMENTOS (nome, valor, data_recebimento, idcontaBancaria) values (
+'salário',
+925.00,
+'2026-08-05',
+1
+);
 
-select * from CONTABANCARIA;
--- 1. Liste todas as despesas juntamente com o nome da categoria. Exiba: descrição; valor; categoria: 
+-- Inserindo na tabela despesas uma despesa de milkshake
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Milkshake',
+'Milkshake de café do BOBS',
+'Alimentação',
+'Vale refeição',
+25.00,
+'2026-07-31'
+);
+
+-- Inserindo na tabela despesas uma despesa de coxinha
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Coxinha',
+'Coxinha da Ana',
+'Alimentação',
+'PIX',
+6.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com pastel
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Pastel',
+'Pastel da Ana',
+'Alimentação',
+'PIX',
+7.00,
+'2026-07-31'
+);
+
+-- Inserindo na tabela despesas uma despesa com Energético Monster
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Monster',
+'Energético do mercado',
+'Alimentação',
+'Vale refeição',
+12.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com barra de chocolate
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Barra de chocolate',
+'Chocolate do mercado',
+'Alimentação',
+'Vale refeição',
+10.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com Ônibus
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Ônibus',
+'Transporte público para a faculdade',
+'Transporte',
+'Vale transporte',
+6.00,
+'2026-07-31'
+);
+
+
+-- Inserindo na tabela despesas uma despesa com Ônibus
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Ônibus',
+'Transporte público para a casa',
+'Transporte',
+'Vale transporte',
+6.00,
+'2026-07-31'
+);
+
+-- Inserindo na tabela despesas uma despesa com Ônibus
+insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
+'Ônibus',
+'Transporte público para a faculdade',
+'Transporte',
+'Vale transporte',
+6.00,
+'2026-08-01'
+);

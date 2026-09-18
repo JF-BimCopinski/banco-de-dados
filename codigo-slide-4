@@ -1,135 +1,107 @@
--- Criação da tabela da conta bancaria
+create table USUARIOS (
+  idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL
+);
+
+create table BANCO (
+  idBanco INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL
+);
+
 create table CONTABANCARIA (
-idContaBancaria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-contaBancaria VARCHAR (100) NOT NULL
+  idContaBancaria INT PRIMARY KEY AUTO_INCREMENT,
+  tipoContaBancaria VARCHAR(100) NOT NULL,
+  idUsuario INT NOT NULL,
+  idBanco INT NOT NULL,
+  FOREIGN KEY (idUsuario) REFERENCES USUARIOS (idUsuario),
+  FOREIGN KEY (idBanco) REFERENCES BANCO (idBanco)
 );
-  
--- Criação da tabela de categoria em despesas
+
 create table CATEGORIA (
-idCategoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-categoria VARCHAR (100) NOT NULL
+  idCategoria INT PRIMARY KEY AUTO_INCREMENT,
+  categoria VARCHAR(100) NOT NULL
 );
 
--- Criação da tabela de método de pagamento
 create table METODOPAGAMENTO (
-idMetodoPagamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-metodoPagamento VARCHAR (100) NOT NULL
+  idMetodoPagamento INT PRIMARY KEY AUTO_INCREMENT,
+  metodoPagamento VARCHAR(100) NOT NULL
 );
 
-insert into CONTABANCARIA (contaBancaria) values ('conta salário'), ('conta corrente'), ('conta poupança');
-insert into CATEGORIA (categoria) values ('alimentação'), ('transporte'), ('lazer'), ('roupas');
-insert into METODOPAGAMENTO (metodoPagamento) values ('PIX'), ('Débito'), ('Crédito'), ('Dinheiro'), ('Vale refeição'), ('Vale alimentação');
+insert into USUARIOS(nome) values ('Jean');
+insert into BANCO(nome) values
+('Sicredi'),
+('Caixa Econômica Federal'),
+('Banco do Brasil'),
+('Itaú'),
+('Santander');
+insert into CONTABANCARIA(tipoContaBancaria, idUsuario, idBanco) values
+('Poupança', 1, 1),
+('Salário', 1, 4),
+('Salário', 1, 5);
+insert into CATEGORIA(categoria) values
+('Alimentação'),
+('Refeição'),
+('Transporte'),
+('Lazer'),
+('Roupas');
+insert into METODOPAGAMENTO(metodoPagamento) values
+('Vale refeição'),
+('Vale alimentação'),
+('Dinheiro'),
+('PIX');
 
--- Criação da tabela recebimentos
 create table RECEBIMENTOS (
-id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(100) NOT NULL,
-valor DECIMAL(6,2) NOT NULL,
-data_recebimento DATE NOT NULL,
-idcontaBancaria INT NOT NULL,
-FOREIGN KEY (idcontaBancaria) REFERENCES contaBancaria(idcontaBancaria)
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL,
+  valor DECIMAL(6,2) NOT NULL,
+  data_recebimento DATE NOT NULL,
+  idContaBancaria INT NOT NULL,
+  FOREIGN KEY (idContaBancaria) REFERENCES CONTABANCARIA(idContaBancaria)
 );
 
--- Criação da tabela despesas
 create table DESPESAS (
-	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(100) NOT NULL,
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL,
   descricao VARCHAR(100) NOT NULL,
-	categoria VARCHAR(100) NOT NULL,
-	valor DECIMAL(11,2) NOT NULL,
-	data_despesa DATE NOT NULL,
+  idCategoria INT NOT NULL,
+  valor DECIMAL(11,2) NOT NULL,
   idMetodoPagamento INT NOT NULL,
-  FOREIGN KEY (idMetodoPagamento) REFERENCES metodoPagamento(idMetodoPagamento)
+  data_despesa DATE NOT NULL,
+  FOREIGN KEY (idCategoria) REFERENCES CATEGORIA(idCategoria),
+  FOREIGN KEY (idMetodoPagamento) REFERENCES METODOPAGAMENTO(idMetodoPagamento)
 );
 
--- Inserindo na tabela recebimentos meu salário
-insert into RECEBIMENTOS (nome, valor, data_recebimento, idcontaBancaria) values (
-'salário',
-925.00,
-'2026-08-05',
-1
-);
+insert into RECEBIMENTOS(nome, valor, data_recebimento, idContaBancaria) values ('salário', 925.00, '2026-08-05', 1);
 
--- Inserindo na tabela despesas uma despesa de milkshake
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Milkshake',
-'Milkshake de café do BOBS',
-'Alimentação',
-'Vale refeição',
-25.00,
-'2026-07-31'
-);
+insert into DESPESAS(nome, descricao, idCategoria, idMetodoPagamento, valor, data_despesa) values
+('Milkshake', 'Milkshake de café do BOBS', 1, 3, 25.00, '2026-07-31'),
+('Coxinha', 'Coxinha da Ana', 1, 3, 6.00, '2026-07-31'),
+('Pastel', 'Pastel da Ana', 1, 3, 7.00, '2026-07-31'),
+('Monster', 'Energético do mercado', 1, 4, 12.00, '2026-07-31'),
+('Barra de chocolate', 'Chocolate do mercado', 1, 4, 10.00, '2026-07-31'),
+('Ônibus', 'Transporte público para a faculdade', 3, 2, 6.00, '2026-07-31'),
+('Ônibus', 'Transporte público para a casa', 3, 2, 6.00, '2026-07-31'),
+('Ônibus', 'Transporte público para a faculdade', 3, 2, 6.00, '2026-08-01');
 
--- Inserindo na tabela despesas uma despesa de coxinha
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Coxinha',
-'Coxinha da Ana',
-'Alimentação',
-'PIX',
-6.00,
-'2026-07-31'
-);
+-- Liste todas as despesas juntamente com o nome da categoria. Exiba: descrição; valor; categoria.
+select D.descricao, D.valor, C.categoria from DESPESAS D join CATEGORIA C on D.idCategoria = C.idCategoria;
 
+-- Liste todas as receitas mostrando: descrição; valor; conta em que foram recebidas.
+select R.nome, R.valor, C.tipoContaBancaria
+from RECEBIMENTOS R
+join CONTABANCARIA C on R.idContaBancaria = C.idContaBancaria;
 
--- Inserindo na tabela despesas uma despesa com pastel
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Pastel',
-'Pastel da Ana',
-'Alimentação',
-'PIX',
-7.00,
-'2026-07-31'
-);
+-- Liste todas as categorias existentes, mesmo aquelas que ainda não possuem despesas cadastradas.
+select C.categoria, D.descricao
+from CATEGORIA C
+left join DESPESAS D
+on C.idCategoria = D.idCategoria;
 
--- Inserindo na tabela despesas uma despesa com Energético Monster
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Monster',
-'Energético do mercado',
-'Alimentação',
-'Vale refeição',
-12.00,
-'2026-07-31'
-);
+-- Mostre apenas as categorias que nunca foram utilizadas.
+select C.categoria from CATEGORIA C left join DESPESAS D on C.idCategoria = D.idCategoria where D.idCategoria is null;
 
-
--- Inserindo na tabela despesas uma despesa com barra de chocolate
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Barra de chocolate',
-'Chocolate do mercado',
-'Alimentação',
-'Vale refeição',
-10.00,
-'2026-07-31'
-);
-
-
--- Inserindo na tabela despesas uma despesa com Ônibus
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Ônibus',
-'Transporte público para a faculdade',
-'Transporte',
-'Vale transporte',
-6.00,
-'2026-07-31'
-);
-
-
--- Inserindo na tabela despesas uma despesa com Ônibus
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Ônibus',
-'Transporte público para a casa',
-'Transporte',
-'Vale transporte',
-6.00,
-'2026-07-31'
-);
-
--- Inserindo na tabela despesas uma despesa com Ônibus
-insert into DESPESAS (nome, descricao, categoria, metodoPagamento, valor, data_despesa) values (
-'Ônibus',
-'Transporte público para a faculdade',
-'Transporte',
-'Vale transporte',
-6.00,
-'2026-08-01'
-);
+-- Liste todas as contas bancárias de um usuário, mostrando também o banco correspondente.
+select U.nome, C.tipoContaBancaria, B.nome
+from USUARIOS U
+join CONTABANCARIA C on U.idUsuario = C.idUsuario
+join BANCO B on C.idBanco = B.idBanco;
